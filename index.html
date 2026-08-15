@@ -1,113 +1,533 @@
-<!DOCTYPE html>
+from pathlib import Path
+import zipfile, textwrap, os, re
+
+outdir = Path("/mnt/data/solemnpaw_site")
+outdir.mkdir(exist_ok=True)
+
+html = r"""<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SolemnPaw | The Science & Sanctuary of Interspecies Care</title>
-    <style>
-        body {
-            background-color: #1a1e21;
-            color: #e2e8f0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.8;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 750px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
-        header {
-            text-align: center;
-            border-bottom: 1px solid #2d3748;
-            padding-bottom: 40px;
-            margin-bottom: 40px;
-        }
-        h1 {
-            font-size: 2.5rem;
-            letter-spacing: 0.1rem;
-            color: #ffffff;
-            margin-bottom: 5px;
-        }
-        .subtitle {
-            font-size: 1.1rem;
-            font-style: italic;
-            color: #a0aec0;
-            margin-top: 0;
-        }
-        .tagline {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: #cbd5e0;
-            margin-top: 20px;
-        }
-        section {
-            margin-bottom: 40px;
-        }
-        p {
-            font-size: 1.1rem;
-            color: #cbd5e0;
-        }
-        .highlight {
-            color: #ffffff;
-            font-weight: 600;
-        }
-        .exegesis-box {
-            background-color: #22262a;
-            border-left: 4px solid #4a5568;
-            padding: 25px;
-            border-radius: 4px;
-            margin: 30px 0;
-        }
-        .exegesis-title {
-            font-weight: bold;
-            color: #ffffff;
-            margin-bottom: 10px;
-            letter-spacing: 0.05rem;
-        }
-        footer {
-            text-align: center;
-            border-top: 1px solid #2d3748;
-            padding-top: 40px;
-            margin-top: 60px;
-            font-size: 0.9rem;
-            color: #718096;
-        }
-        .monument {
-            font-style: italic;
-            color: #a0aec0;
-            margin-top: 10px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="SolemnPaw is a caregiver-facing sanctuary for people navigating the sacred responsibility of loving, caring for, grieving, and honoring an animal companion." />
+  <title>SolemnPaw — A Sanctuary for Interspecies Care</title>
+
+  <style>
+    :root{
+      --ink:#23211f;
+      --muted:#6f6964;
+      --paper:#f7f3ee;
+      --paper-2:#efe8e1;
+      --accent:#7a5e52;
+      --accent-soft:#d9c8bd;
+      --line:#d8cec5;
+      --card:#fffdf9;
+      --dark:#2f2a27;
+      --max:1180px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      background:var(--paper);
+      color:var(--ink);
+      font-family:Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height:1.62;
+      letter-spacing:-0.01em;
+    }
+
+    a{color:inherit}
+    .wrap{width:min(calc(100% - 40px), var(--max)); margin:0 auto}
+
+    header{
+      position:sticky;
+      top:0;
+      z-index:50;
+      backdrop-filter:blur(12px);
+      background:rgba(247,243,238,.88);
+      border-bottom:1px solid rgba(122,94,82,.12);
+    }
+
+    nav{
+      min-height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:24px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      text-decoration:none;
+      font-weight:700;
+      letter-spacing:.02em;
+    }
+
+    .mark{
+      width:32px;
+      height:32px;
+      border:1px solid var(--accent-soft);
+      border-radius:50%;
+      display:grid;
+      place-items:center;
+      color:var(--accent);
+      font-size:15px;
+    }
+
+    .navlinks{
+      display:flex;
+      gap:26px;
+      align-items:center;
+      font-size:14px;
+      color:var(--muted);
+    }
+
+    .navlinks a{text-decoration:none}
+    .navlinks a:hover{color:var(--ink)}
+
+    .hero{
+      padding:112px 0 82px;
+      border-bottom:1px solid var(--line);
+    }
+
+    .eyebrow{
+      text-transform:uppercase;
+      letter-spacing:.17em;
+      font-size:12px;
+      font-weight:700;
+      color:var(--accent);
+      margin-bottom:24px;
+    }
+
+    h1,h2,h3{
+      font-family:Georgia, "Times New Roman", serif;
+      font-weight:500;
+      line-height:1.08;
+      letter-spacing:-.035em;
+      margin-top:0;
+    }
+
+    h1{
+      font-size:clamp(54px, 8vw, 104px);
+      max-width:1000px;
+      margin-bottom:28px;
+    }
+
+    .hero-copy{
+      max-width:790px;
+      font-size:clamp(20px,2.1vw,27px);
+      color:#4a4541;
+      margin-bottom:36px;
+    }
+
+    .hero-note{
+      max-width:760px;
+      color:var(--muted);
+      font-size:17px;
+      margin-top:28px;
+    }
+
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:34px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      min-height:48px;
+      padding:0 20px;
+      border-radius:999px;
+      text-decoration:none;
+      font-weight:650;
+      font-size:14px;
+      border:1px solid var(--dark);
+    }
+
+    .btn.primary{background:var(--dark);color:white}
+    .btn.secondary{background:transparent}
+
+    section{padding:88px 0}
+    .section-title{
+      font-size:clamp(39px,5vw,64px);
+      max-width:850px;
+      margin-bottom:28px;
+    }
+
+    .section-lead{
+      max-width:810px;
+      font-size:21px;
+      color:#4e4945;
+      margin-bottom:48px;
+    }
+
+    .grid-4{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:16px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:28px 24px 30px;
+      min-height:260px;
+    }
+
+    .card h3{
+      font-size:27px;
+      margin-bottom:14px;
+    }
+
+    .card p{
+      color:var(--muted);
+      margin:0;
+      font-size:15.5px;
+    }
+
+    .sacred{
+      background:var(--dark);
+      color:#f7f3ee;
+    }
+
+    .sacred .section-lead{color:#d8d0ca}
+    .statement{
+      font-family:Georgia, "Times New Roman", serif;
+      font-size:clamp(35px,5vw,66px);
+      line-height:1.12;
+      max-width:1000px;
+      margin:34px 0 0;
+      letter-spacing:-.03em;
+    }
+
+    .statement em{
+      color:#d8bfb1;
+      font-style:normal;
+    }
+
+    .split{
+      display:grid;
+      grid-template-columns:1.05fr .95fr;
+      gap:70px;
+      align-items:start;
+    }
+
+    .principles{
+      display:grid;
+      gap:14px;
+    }
+
+    .principle{
+      padding:20px 0;
+      border-top:1px solid var(--line);
+    }
+    .principle:last-child{border-bottom:1px solid var(--line)}
+    .principle strong{
+      display:block;
+      font-size:18px;
+      margin-bottom:4px;
+    }
+    .principle span{color:var(--muted)}
+
+    .milestone{
+      background:linear-gradient(180deg,var(--paper-2),var(--paper));
+    }
+
+    .date{
+      font-size:13px;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      color:var(--accent);
+      font-weight:700;
+      margin-bottom:18px;
+    }
+
+    .shika-box{
+      border-left:3px solid var(--accent);
+      padding-left:28px;
+      max-width:840px;
+    }
+
+    .shika-box p{
+      font-family:Georgia, "Times New Roman", serif;
+      font-size:clamp(25px,3vw,38px);
+      line-height:1.35;
+      margin:0;
+    }
+
+    .ecosystem{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:18px;
+      margin-top:44px;
+    }
+
+    .project{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:30px;
+      background:var(--card);
+    }
+
+    .project .tag{
+      color:var(--accent);
+      text-transform:uppercase;
+      letter-spacing:.13em;
+      font-weight:700;
+      font-size:11px;
+      margin-bottom:14px;
+    }
+
+    .project h3{font-size:34px;margin-bottom:12px}
+    .project p{color:var(--muted);margin-bottom:0}
+
+    .about{
+      background:#ece5de;
+    }
+
+    .about-copy{
+      max-width:810px;
+      font-size:20px;
+      color:#4a4541;
+    }
+
+    .footer{
+      padding:46px 0 56px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:14px;
+    }
+
+    .footer-row{
+      display:flex;
+      justify-content:space-between;
+      gap:20px;
+      flex-wrap:wrap;
+    }
+
+    .smallcaps{
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-size:11px;
+      font-weight:700;
+      color:var(--accent);
+    }
+
+    @media (max-width:900px){
+      .grid-4{grid-template-columns:1fr 1fr}
+      .split,.ecosystem{grid-template-columns:1fr}
+      .navlinks{display:none}
+      .hero{padding-top:78px}
+    }
+
+    @media (max-width:600px){
+      .wrap{width:min(calc(100% - 28px), var(--max))}
+      .grid-4{grid-template-columns:1fr}
+      section{padding:70px 0}
+      h1{font-size:52px}
+      .hero-copy{font-size:21px}
+      .card{min-height:unset}
+      nav{min-height:64px}
+    }
+  </style>
 </head>
+
 <body>
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="#top" aria-label="SolemnPaw home">
+        <span class="mark">◦</span>
+        <span>SOLEMNPAW</span>
+      </a>
+      <div class="navlinks">
+        <a href="#recognition">For caregivers</a>
+        <a href="#dyad">The sacred dyad</a>
+        <a href="#shika">Why this exists</a>
+        <a href="#building">What we're building</a>
+      </div>
+    </nav>
+  </div>
+</header>
 
-    <div class="container">
-        <header>
-            <h1>SOLEMNPAW</h1>
-            <p class="subtitle">The Science and Sanctuary of Interspecies Care</p>
-            <p class="tagline">"Veterinary medicine heals the body. We hold the soul."</p>
-        </header>
-
-        <section>
-            <p>If you are carrying the exhausting, round-the-clock weight of chronic animal illness, you are seen here. If you are drowning in the silent trauma of an agonizing end-of-life decision, or suffocating under a grief that society tells you to minimize—<span class="highlight">your pain is entirely legitimate.</span></p>
-            
-            <p>We do not reduce your deep devotion to simple "pet ownership" or dismiss it as "anthropomorphism." We recognize that the crushing, quiet vigil of animal caregiving is a profound, high-stakes existential journey. You are navigating an ontological commitment to a soul-level peer, and you do not have to walk through this shadow alone. Welcome to a non-judgmental harbor built explicitly to hold your soul.</p>
-        </section>
-
-        <section class="exegesis-box">
-            <div class="exegesis-title">OUR PHILOSOPHY: THE ANIMAPATH FRAMEWORK</div>
-            <p>In mainstream clinical language, the suffix <em>-path</em> has been diluted to mean surface-level empathy—the passing weather of transient human emotions.</p> 
-            <p>We utilize the framework of <span class="highlight">Animapathy</span> because our work addresses a far deeper, heavier landscape of human-animal attachment. It fuses <strong>Anima</strong>—the Latin root for the timeless inner soul and the vital life force—with <strong>Pathos</strong> in its truest, classical sense: <em>profound, shared existential suffering.</em></p>
-            <p>An Animapath is a person whose nervous system and psyche are uniquely, deeply attuned to the wordless, internal spirit of our animal kin. You do not value a bonded life force differently based on biological species lines. You respond directly to soul needs—which demand dignity, permanent loyalty, and absolute witness—rather than fleeting emotional states. Your intense devotion is not a psychological dysfunction; it is a rational, beautiful capacity for deep existential resonance.</p>
-        </section>
-
-        <footer>
-            <p>SolemnPaw &copy; 2026. All Rights Reserved.</p>
-            <p class="monument">Founded in loving memory of Shika &bull; August 15, 2008 &mdash; Eternal</p>
-        </footer>
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div class="eyebrow">A sanctuary for interspecies care</div>
+      <h1>Some bonds ask something sacred of us.</h1>
+      <p class="hero-copy">
+        SolemnPaw is a place for people whose relationship with an animal carries a depth of love, duty, and responsibility that ordinary language does not always hold well.
+      </p>
+      <p class="hero-note">
+        When caregiving becomes demanding, when disability changes the body, when death enters the room, or when grief makes the world feel suddenly too quiet, you should not have to minimize the relationship in order to be understood.
+      </p>
+      <div class="actions">
+        <a class="btn primary" href="#recognition">You are not alone</a>
+        <a class="btn secondary" href="#shika">Why SolemnPaw exists</a>
+      </div>
     </div>
+  </section>
 
+  <section id="recognition">
+    <div class="wrap">
+      <div class="eyebrow">If you are here</div>
+      <h2 class="section-title">The work of loving another being can become invisible work.</h2>
+      <p class="section-lead">
+        You may be reorganizing your days around medications, mobility, feeding, appointments, symptoms, sleep, vigilance, or simply keeping watch. You may be wondering whether you are doing enough, doing too much, or how to keep going when the world around you does not fully understand what is being asked of you.
+      </p>
+
+      <div class="grid-4">
+        <article class="card">
+          <h3>The Vigil</h3>
+          <p>Caregiver burden, exhaustion, hypervigilance, disrupted routines, and the loneliness of holding responsibility that others may not recognize.</p>
+        </article>
+
+        <article class="card">
+          <h3>The Changing Body</h3>
+          <p>Aging, disability, dependency, mobility, cognition, continence, adaptation, and the vital distinction between loss of function and loss of dignity.</p>
+        </article>
+
+        <article class="card">
+          <h3>The Hard Decisions</h3>
+          <p>Medical uncertainty, competing values, financial realities, quality of life, end-of-life questions, and the weight of making decisions for someone who cannot make them alone.</p>
+        </article>
+
+        <article class="card">
+          <h3>What Remains</h3>
+          <p>Anticipatory grief, bereavement, remembrance, ritual, continuing bonds, and the need for a life that mattered to continue to be witnessed.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sacred" id="dyad">
+    <div class="wrap">
+      <div class="eyebrow" style="color:#d8bfb1;">The sacred dyad</div>
+      <h2 class="section-title">Solemn does not mean only sad.</h2>
+      <p class="section-lead">
+        It means serious. Reverent. Worthy of care. A recognition that two living beings can form a relationship whose meaning cannot be measured by species, social convention, or usefulness.
+      </p>
+
+      <p class="statement">
+        The relationship may have a role. The body may change. The world may assign a category. <em>The being remains.</em>
+      </p>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap split">
+      <div>
+        <div class="eyebrow">What we believe</div>
+        <h2 class="section-title">Care should respond to the being in front of us.</h2>
+        <p class="section-lead" style="margin-bottom:0">
+          SolemnPaw begins from a simple orientation: another life does not become less worthy of dignity because that life is nonhuman, disabled, dependent, aging, difficult to care for, or approaching death.
+        </p>
+      </div>
+
+      <div class="principles">
+        <div class="principle">
+          <strong>Dependency is not indignity.</strong>
+          <span>Needing help does not, by itself, make a life less meaningful.</span>
+        </div>
+        <div class="principle">
+          <strong>Caregiver exhaustion is not lack of devotion.</strong>
+          <span>Love and depletion can coexist. Support should not require shame.</span>
+        </div>
+        <div class="principle">
+          <strong>Uncertainty does not mean failure.</strong>
+          <span>Some decisions remain painful even when they are thoughtful and loving.</span>
+        </div>
+        <div class="principle">
+          <strong>Remembrance is part of care.</strong>
+          <span>The relationship does not become meaningless when physical caregiving ends.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="milestone" id="shika">
+    <div class="wrap">
+      <div class="date">August 15, 2026 · Shika's 18th birthday</div>
+      <h2 class="section-title">This begins with Shika.</h2>
+
+      <div class="shika-box">
+        <p>
+          SolemnPaw exists because caring for Shika changed the questions I could no longer stop asking: what dignity requires, what caregiving costs, what support is missing, and why the seriousness of that responsibility should diminish simply because the life in my care was not human.
+        </p>
+      </div>
+
+      <p class="section-lead" style="margin-top:34px;margin-bottom:0">
+        Six months after her death, on the day she would have turned eighteen, this is the first public step in carrying what she taught me forward. Her life is not a case study or a brand story. It is the reason I began to see the gaps clearly enough to try to build something different.
+      </p>
+    </div>
+  </section>
+
+  <section id="building">
+    <div class="wrap">
+      <div class="eyebrow">What we're building</div>
+      <h2 class="section-title">Recognition is the beginning, not the endpoint.</h2>
+      <p class="section-lead">
+        SolemnPaw is the public-facing sanctuary and philosophy. Behind it, two related bodies of work are being developed more deliberately.
+      </p>
+
+      <div class="ecosystem">
+        <article class="project">
+          <div class="tag">Applied support · in development</div>
+          <h3>Dignified Paw</h3>
+          <p>
+            A psychologically informed approach to navigating serious illness, disability, changing care needs, ethical conflict, end-of-life decisions, death care, and remembrance—centered on the whole animal and the caregiver responsible for them.
+          </p>
+        </article>
+
+        <article class="project">
+          <div class="tag">Theory & research · early development</div>
+          <h3>Animapathy</h3>
+          <p>
+            A developing theoretical framework exploring whether some people experience suffering, responsibility, and duty to care in ways that are comparatively less bounded by species—and what that may mean for caregiver burden, moral distress, grief, and support needs.
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="about">
+    <div class="wrap">
+      <div class="eyebrow">About the founder</div>
+      <h2 class="section-title">Lived experience opened the question. Psychology gave me a way to investigate it.</h2>
+      <p class="about-copy">
+        SolemnPaw was founded by Zyanya Mendoza, a licensed psychologist with a background in rehabilitation psychology, disability, caregiving, clinical research, and behavioral health. The work grew out of years of caring for companion animals across disability, chronic illness, aging, and loss—and from seeing how much of the caregiver's experience falls between veterinary medicine, psychology, and the systems designed to support families.
+      </p>
+      <p class="about-copy">
+        The goal is not to claim that all animal caregiving experiences are the same, or that every bond should be understood in the same way. It is to create room for the people for whom the responsibility is profound—and to investigate, carefully, what better support could look like.
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-row">
+    <div>
+      <div class="smallcaps">SolemnPaw</div>
+      <div>A public expression of Shika's Legacy.</div>
+    </div>
+    <div>© 2026 SolemnPaw · All rights reserved.</div>
+  </div>
+</footer>
 </body>
 </html>
+"""
+
+(outdir / "index.html").write_text(html, encoding="utf-8")
+zip_path = Path("/mnt/data/solemnpaw_site.zip")
+with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
+    z.write(outdir / "index.html", arcname="index.html")
+
+print(f"Created: {outdir / 'index.html'}")
+print(f"Created: {zip_path}")

@@ -11,15 +11,11 @@
       --ink:#24211f;
       --muted:#716a64;
       --paper:#f7f3ee;
-      --paper-2:#efe8e1;
       --accent:#7a5e52;
-      --accent-soft:#d8c6ba;
-      --olive:#6f7761;
       --line:#d9cec4;
       --card:#fbf8f3;
       --dark:#2d2926;
       --dark-2:#37312d;
-      --white:#fffdf9;
       --max:1180px;
       --serif:Georgia, "Times New Roman", serif;
       --sans:Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -428,6 +424,45 @@
       margin-top:28px;
     }
 
+    .shika-portrait-wrap{
+      margin-top:36px;
+      max-width:300px;
+    }
+
+    .shika-portrait{
+      display:block;
+      width:100%;
+      height:auto;
+    }
+
+    .shika-identity{
+      margin-top:14px;
+      display:flex;
+      align-items:baseline;
+      flex-wrap:wrap;
+      gap:6px 10px;
+    }
+
+    .shika-identity strong{
+      font-family:var(--serif);
+      font-size:22px;
+      font-weight:500;
+      color:var(--ink);
+    }
+
+    .shika-pronunciation{
+      font-size:13px;
+      color:var(--muted);
+    }
+
+    .shika-origin{
+      flex-basis:100%;
+      font-size:11px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:var(--accent);
+    }
+
     .ecosystem{
       display:grid;
       grid-template-columns:1fr 1fr;
@@ -536,6 +571,13 @@
       .ecosystem{grid-template-columns:1fr}
     }
 
+    @media (max-width:760px){
+      .shika-portrait-wrap{
+        max-width:280px;
+        margin-top:28px;
+      }
+    }
+
     @media (max-width:600px){
       .wrap{width:min(calc(100% - 28px),var(--max))}
       nav{min-height:68px}
@@ -558,52 +600,7 @@
       .reveal{opacity:1;transform:none;transition:none}
       .btn,.care-card,.project{transition:none}
     }
-    .shika-portrait-wrap{
-    margin-top:36px;
-    max-width:300px;
-}
 
-.shika-portrait{
-    display:block;
-    width:100%;
-    height:auto;
-    object-fit:cover;
-}
-
-.shika-identity{
-    margin-top:14px;
-    display:flex;
-    align-items:baseline;
-    flex-wrap:wrap;
-    gap:6px 10px;
-}
-
-.shika-identity strong{
-    font-family:var(--serif);
-    font-size:22px;
-    font-weight:500;
-    color:var(--ink);
-}
-
-.shika-pronunciation{
-    font-size:13px;
-    color:var(--muted);
-}
-
-.shika-origin{
-    flex-basis:100%;
-    font-size:11px;
-    letter-spacing:.12em;
-    text-transform:uppercase;
-    color:var(--accent);
-}
-
-@media (max-width:760px){
-    .shika-portrait-wrap{
-        max-width:280px;
-        margin-top:28px;
-    }
-}
   </style>
 </head>
 <body>

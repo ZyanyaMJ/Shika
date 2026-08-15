@@ -66,6 +66,7 @@
   object-fit:contain;
   display:block;
   flex-shrink:0;
+  mix-blend-mode:multiply;
 }
 
     .navlinks{
@@ -80,8 +81,35 @@
     .navlinks a:hover{color:var(--ink)}
 
     .hero{
-      padding:112px 0 82px;
+      padding:96px 0 82px;
       border-bottom:1px solid var(--line);
+      overflow:hidden;
+    }
+
+    .hero-layout{
+      display:grid;
+      grid-template-columns:minmax(0,1.45fr) minmax(260px,.55fr);
+      gap:clamp(28px,5vw,74px);
+      align-items:center;
+    }
+
+    .hero-content{
+      min-width:0;
+    }
+
+    .hero-visual{
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      min-width:0;
+    }
+
+    .hero-emblem{
+      width:clamp(240px,28vw,390px);
+      height:auto;
+      display:block;
+      mix-blend-mode:multiply;
+      transform:translateY(6px);
     }
 
     .eyebrow{
@@ -108,7 +136,7 @@
     }
 
     .hero-copy{
-      max-width:790px;
+      max-width:760px;
       font-size:clamp(20px,2.1vw,27px);
       color:#4a4541;
       margin-bottom:36px;
@@ -119,19 +147,6 @@
       color:var(--muted);
       font-size:17px;
       margin-top:28px;
-    }
-
-
-    .brand-seal{
-      padding:42px 0 12px;
-      text-align:center;
-    }
-
-    .brand-seal-logo{
-      width:220px;
-      max-width:52vw;
-      height:auto;
-      display:inline-block;
     }
 
     .actions{
@@ -328,7 +343,18 @@
       .grid-4{grid-template-columns:1fr 1fr}
       .split,.ecosystem{grid-template-columns:1fr}
       .navlinks{display:none}
-      .hero{padding-top:78px}
+      .hero{padding-top:74px}
+      .hero-layout{
+        grid-template-columns:1fr;
+        gap:34px;
+      }
+      .hero-visual{
+        order:2;
+      }
+      .hero-emblem{
+        width:clamp(210px,48vw,320px);
+        transform:none;
+      }
     }
 
     @media (max-width:600px){
@@ -337,8 +363,10 @@
       section{padding:70px 0}
       h1{font-size:52px}
       .hero-copy{font-size:21px}
+      .hero{padding-bottom:64px}
+      .hero-layout{gap:28px}
+      .hero-emblem{width:min(68vw,280px)}
       .card{min-height:unset}
-      .brand-seal-logo{width:170px;max-width:58vw}
       nav{min-height:64px}
     }
   </style>
@@ -365,28 +393,30 @@
 <main id="top">
   <section class="hero">
     <div class="wrap">
-      <div class="eyebrow">A sanctuary for interspecies care</div>
-      <h1>Some bonds ask something sacred of us.</h1>
-      <p class="hero-copy">
-        SolemnPaw is a place for people whose relationship with an animal carries a depth of love, duty, and responsibility that ordinary language does not always hold well.
-      </p>
-      <p class="hero-note">
-        When caregiving becomes demanding, when disability changes the body, when death enters the room, or when grief makes the world feel suddenly too quiet, you should not have to minimize the relationship in order to be understood.
-      </p>
-      <div class="actions">
-        <a class="btn primary" href="#recognition">You are not alone</a>
-        <a class="btn secondary" href="#shika">Why SolemnPaw exists</a>
-      </div>
-    </div>
-  </section>
+      <div class="hero-layout">
+        <div class="hero-content">
+          <div class="eyebrow">A sanctuary for interspecies care</div>
+          <h1>Some bonds ask something sacred of us.</h1>
+          <p class="hero-copy">
+            SolemnPaw is a place for people whose relationship with an animal carries a depth of love, duty, and responsibility that ordinary language does not always hold well.
+          </p>
+          <p class="hero-note">
+            When caregiving becomes demanding, when disability changes the body, when death enters the room, or when grief makes the world feel suddenly too quiet, you should not have to minimize the relationship in order to be understood.
+          </p>
+          <div class="actions">
+            <a class="btn primary" href="#recognition">You are not alone</a>
+            <a class="btn secondary" href="#shika">Why SolemnPaw exists</a>
+          </div>
+        </div>
 
-  <section class="brand-seal" aria-label="SolemnPaw emblem">
-    <div class="wrap">
-      <img
-        src="assets/solemnpaw-logo.png"
-        alt="SolemnPaw emblem showing a human and animal in a caring dyad"
-        class="brand-seal-logo"
-      >
+        <div class="hero-visual" aria-hidden="true">
+          <img
+            src="assets/solemnpaw-logo.png"
+            class="hero-emblem"
+            alt=""
+          >
+        </div>
+      </div>
     </div>
   </section>
 

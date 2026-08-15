@@ -558,6 +558,52 @@
       .reveal{opacity:1;transform:none;transition:none}
       .btn,.care-card,.project{transition:none}
     }
+    .shika-portrait-wrap{
+    margin-top:36px;
+    max-width:300px;
+}
+
+.shika-portrait{
+    display:block;
+    width:100%;
+    height:auto;
+    object-fit:cover;
+}
+
+.shika-identity{
+    margin-top:14px;
+    display:flex;
+    align-items:baseline;
+    flex-wrap:wrap;
+    gap:6px 10px;
+}
+
+.shika-identity strong{
+    font-family:var(--serif);
+    font-size:22px;
+    font-weight:500;
+    color:var(--ink);
+}
+
+.shika-pronunciation{
+    font-size:13px;
+    color:var(--muted);
+}
+
+.shika-origin{
+    flex-basis:100%;
+    font-size:11px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+    color:var(--accent);
+}
+
+@media (max-width:760px){
+    .shika-portrait-wrap{
+        max-width:280px;
+        margin-top:28px;
+    }
+}
   </style>
 </head>
 <body>

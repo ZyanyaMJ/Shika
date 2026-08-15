@@ -268,8 +268,7 @@
 
     .care-grid{
       display:grid;
-      grid-template-columns:1.15fr .85fr;
-      grid-template-rows:auto auto;
+      grid-template-columns:repeat(2,minmax(0,1fr));
       gap:18px;
     }
 
@@ -279,6 +278,10 @@
       border:1px solid var(--line);
       border-radius:24px;
       padding:32px;
+      min-height:225px;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-start;
       overflow:hidden;
       transition:transform .28s ease, box-shadow .28s ease, border-color .28s ease;
     }
@@ -288,13 +291,8 @@
       border-color:#cbb9ad;
     }
     .care-card.large{
-      grid-row:span 2;
-      min-height:500px;
-      display:flex;
-      flex-direction:column;
-      justify-content:flex-end;
       background:
-        radial-gradient(circle at 72% 18%, rgba(216,198,186,.46), transparent 34%),
+        radial-gradient(circle at 78% 18%, rgba(216,198,186,.28), transparent 34%),
         var(--card);
     }
     .care-card h3{
@@ -420,60 +418,54 @@
 
     .shika-portrait-wrap{
       position:absolute;
-      left:-8%;
-      right:-20%;
+      left:-10%;
       top:185px;
-      bottom:-70px;
+      width:calc(100% + 190px);
+      height:560px;
       margin:0;
       max-width:none;
-      overflow:hidden;
+      overflow:visible;
       pointer-events:none;
+      z-index:1;
     }
 
     .shika-portrait{
       position:absolute;
       left:0;
       top:0;
-      width:112%;
+      width:100%;
       max-width:none;
       height:100%;
       object-fit:cover;
-      object-position:42% 50%;
+      object-position:left center;
       display:block;
       mix-blend-mode:multiply;
 
-      -webkit-mask-image:
-        linear-gradient(to right,
-          rgba(0,0,0,1) 0%,
-          rgba(0,0,0,1) 58%,
-          rgba(0,0,0,.88) 70%,
-          rgba(0,0,0,.48) 84%,
-          rgba(0,0,0,0) 100%),
-        linear-gradient(to bottom,
-          rgba(0,0,0,1) 0%,
-          rgba(0,0,0,1) 70%,
-          rgba(0,0,0,.72) 84%,
-          rgba(0,0,0,0) 100%);
-      -webkit-mask-composite:source-in;
-
-      mask-image:
-        linear-gradient(to right,
-          rgba(0,0,0,1) 0%,
-          rgba(0,0,0,1) 58%,
-          rgba(0,0,0,.88) 70%,
-          rgba(0,0,0,.48) 84%,
-          rgba(0,0,0,0) 100%),
-        linear-gradient(to bottom,
-          rgba(0,0,0,1) 0%,
-          rgba(0,0,0,1) 70%,
-          rgba(0,0,0,.72) 84%,
-          rgba(0,0,0,0) 100%);
-      mask-composite:intersect;
+      /* Keep Shika fully present on the left; fade only the less-important
+         right side of the image as it approaches the text column. */
+      -webkit-mask-image:linear-gradient(
+        to right,
+        rgba(0,0,0,1) 0%,
+        rgba(0,0,0,1) 52%,
+        rgba(0,0,0,.96) 60%,
+        rgba(0,0,0,.72) 72%,
+        rgba(0,0,0,.38) 84%,
+        rgba(0,0,0,0) 100%
+      );
+      mask-image:linear-gradient(
+        to right,
+        rgba(0,0,0,1) 0%,
+        rgba(0,0,0,1) 52%,
+        rgba(0,0,0,.96) 60%,
+        rgba(0,0,0,.72) 72%,
+        rgba(0,0,0,.38) 84%,
+        rgba(0,0,0,0) 100%
+      );
     }
 
     .shika-identity{
       position:absolute;
-      z-index:4;
+      z-index:5;
       left:0;
       bottom:8px;
       display:flex;
@@ -508,6 +500,8 @@
     }
 
     .shika-box{
+      position:relative;
+      z-index:3;
       border-left:3px solid var(--accent);
       padding-left:30px;
     }
@@ -520,6 +514,8 @@
     }
 
     .milestone-copy{
+      position:relative;
+      z-index:3;
       color:var(--muted);
       font-size:18px;
       max-width:760px;
@@ -538,10 +534,10 @@
       border-radius:24px;
       background:var(--card);
       border:1px solid var(--line);
-      min-height:300px;
+      min-height:270px;
       display:flex;
       flex-direction:column;
-      justify-content:flex-end;
+      justify-content:flex-start;
       overflow:hidden;
       transition:transform .28s ease, box-shadow .28s ease;
     }
@@ -561,6 +557,8 @@
       background:radial-gradient(circle,rgba(111,119,97,.22),transparent 70%);
     }
     .project .tag{
+      position:relative;
+      z-index:2;
       color:var(--accent);
       text-transform:uppercase;
       letter-spacing:.14em;
@@ -568,8 +566,20 @@
       font-size:11px;
       margin-bottom:12px;
     }
-    .project h3{font-size:40px;margin-bottom:12px}
-    .project p{color:var(--muted);margin:0;max-width:560px}
+    .project h3{
+      position:relative;
+      z-index:2;
+      font-size:40px;
+      margin-bottom:12px;
+    }
+
+    .project p{
+      position:relative;
+      z-index:2;
+      color:var(--muted);
+      margin:0;
+      max-width:560px;
+    }
 
     .about{
       background:#ece5de;
@@ -630,7 +640,6 @@
       .hero{min-height:auto;padding-top:56px}
       .section-head,.sacred-grid,.beliefs,.milestone-grid,.about-grid{grid-template-columns:1fr;gap:30px}
       .care-grid{grid-template-columns:1fr}
-      .care-card.large{grid-row:auto;min-height:360px}
       .ecosystem{grid-template-columns:1fr}
 
       .shika-intro{
@@ -638,15 +647,15 @@
       }
 
       .shika-portrait-wrap{
-        left:-5%;
-        right:-5%;
+        left:-6%;
         top:170px;
-        bottom:-30px;
+        width:106%;
+        height:500px;
       }
 
       .shika-portrait{
         width:100%;
-        object-position:50% 45%;
+        object-position:left center;
       }
     }
 @media (max-width:600px){
@@ -671,8 +680,8 @@
       .shika-portrait-wrap{
         top:160px;
         left:-12%;
-        right:-12%;
-        bottom:-18px;
+        width:116%;
+        height:420px;
       }
 
       .shika-identity{

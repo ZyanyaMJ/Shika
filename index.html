@@ -1,9 +1,3 @@
-from pathlib import Path
-import zipfile, textwrap, os, re
-
-outdir = Path("/mnt/data/solemnpaw_site")
-outdir.mkdir(exist_ok=True)
-
 html = r"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -522,12 +516,3 @@ html = r"""<!DOCTYPE html>
 </footer>
 </body>
 </html>
-"""
-
-(outdir / "index.html").write_text(html, encoding="utf-8")
-zip_path = Path("/mnt/data/solemnpaw_site.zip")
-with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as z:
-    z.write(outdir / "index.html", arcname="index.html")
-
-print(f"Created: {outdir / 'index.html'}")
-print(f"Created: {zip_path}")

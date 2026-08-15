@@ -307,16 +307,7 @@
       margin:0;
       font-size:16px;
     }
-    .card-number{
-      position:absolute;
-      top:22px;
-      right:24px;
-      font-family:var(--serif);
-      font-size:42px;
-      color:rgba(122,94,82,.18);
-    }
-
-    .sacred{
+.sacred{
       position:relative;
       background:linear-gradient(145deg,var(--dark),var(--dark-2));
       color:var(--paper);
@@ -389,78 +380,150 @@
     .principle span{color:var(--muted)}
 
     .milestone{
+      position:relative;
       background:
         linear-gradient(180deg,rgba(239,232,225,.94),rgba(247,243,238,1)),
         var(--paper);
+      overflow:hidden;
     }
+
     .milestone-grid{
       display:grid;
-      grid-template-columns:.68fr 1.32fr;
-      gap:64px;
+      grid-template-columns:minmax(360px,.78fr) minmax(0,1.22fr);
+      gap:clamp(42px,5vw,72px);
       align-items:start;
     }
+
+    .shika-intro{
+      position:relative;
+      min-height:760px;
+      overflow:visible;
+    }
+
     .date{
+      position:relative;
+      z-index:3;
       text-transform:uppercase;
       letter-spacing:.16em;
       font-size:12px;
       font-weight:800;
       color:var(--accent);
       margin-bottom:18px;
+      max-width:360px;
     }
+
+    .shika-intro .section-title{
+      position:relative;
+      z-index:3;
+      max-width:420px;
+    }
+
+    .shika-portrait-wrap{
+      position:absolute;
+      left:-8%;
+      right:-20%;
+      top:185px;
+      bottom:-70px;
+      margin:0;
+      max-width:none;
+      overflow:hidden;
+      pointer-events:none;
+    }
+
+    .shika-portrait{
+      position:absolute;
+      left:0;
+      top:0;
+      width:112%;
+      max-width:none;
+      height:100%;
+      object-fit:cover;
+      object-position:42% 50%;
+      display:block;
+      mix-blend-mode:multiply;
+
+      -webkit-mask-image:
+        linear-gradient(to right,
+          rgba(0,0,0,1) 0%,
+          rgba(0,0,0,1) 58%,
+          rgba(0,0,0,.88) 70%,
+          rgba(0,0,0,.48) 84%,
+          rgba(0,0,0,0) 100%),
+        linear-gradient(to bottom,
+          rgba(0,0,0,1) 0%,
+          rgba(0,0,0,1) 70%,
+          rgba(0,0,0,.72) 84%,
+          rgba(0,0,0,0) 100%);
+      -webkit-mask-composite:source-in;
+
+      mask-image:
+        linear-gradient(to right,
+          rgba(0,0,0,1) 0%,
+          rgba(0,0,0,1) 58%,
+          rgba(0,0,0,.88) 70%,
+          rgba(0,0,0,.48) 84%,
+          rgba(0,0,0,0) 100%),
+        linear-gradient(to bottom,
+          rgba(0,0,0,1) 0%,
+          rgba(0,0,0,1) 70%,
+          rgba(0,0,0,.72) 84%,
+          rgba(0,0,0,0) 100%);
+      mask-composite:intersect;
+    }
+
+    .shika-identity{
+      position:absolute;
+      z-index:4;
+      left:0;
+      bottom:8px;
+      display:flex;
+      align-items:baseline;
+      flex-wrap:wrap;
+      gap:5px 9px;
+      padding:10px 14px 9px;
+      background:rgba(247,243,238,.76);
+      backdrop-filter:blur(8px);
+      -webkit-backdrop-filter:blur(8px);
+      border-left:2px solid rgba(122,94,82,.55);
+    }
+
+    .shika-identity strong{
+      font-family:var(--serif);
+      font-size:23px;
+      font-weight:500;
+      color:var(--ink);
+    }
+
+    .shika-pronunciation{
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .shika-origin{
+      flex-basis:100%;
+      font-size:10px;
+      letter-spacing:.13em;
+      text-transform:uppercase;
+      color:var(--accent);
+    }
+
     .shika-box{
       border-left:3px solid var(--accent);
       padding-left:30px;
     }
+
     .shika-box p{
       font-family:var(--serif);
       font-size:clamp(28px,3.3vw,43px);
       line-height:1.3;
       margin:0;
     }
+
     .milestone-copy{
       color:var(--muted);
       font-size:18px;
       max-width:760px;
       margin-top:28px;
-    }
-
-    .shika-portrait-wrap{
-      margin-top:36px;
-      max-width:300px;
-    }
-
-    .shika-portrait{
-      display:block;
-      width:100%;
-      height:auto;
-    }
-
-    .shika-identity{
-      margin-top:14px;
-      display:flex;
-      align-items:baseline;
-      flex-wrap:wrap;
-      gap:6px 10px;
-    }
-
-    .shika-identity strong{
-      font-family:var(--serif);
-      font-size:22px;
-      font-weight:500;
-      color:var(--ink);
-    }
-
-    .shika-pronunciation{
-      font-size:13px;
-      color:var(--muted);
-    }
-
-    .shika-origin{
-      flex-basis:100%;
-      font-size:11px;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      color:var(--accent);
     }
 
     .ecosystem{
@@ -569,16 +632,24 @@
       .care-grid{grid-template-columns:1fr}
       .care-card.large{grid-row:auto;min-height:360px}
       .ecosystem{grid-template-columns:1fr}
-    }
 
-    @media (max-width:760px){
+      .shika-intro{
+        min-height:680px;
+      }
+
       .shika-portrait-wrap{
-        max-width:280px;
-        margin-top:28px;
+        left:-5%;
+        right:-5%;
+        top:170px;
+        bottom:-30px;
+      }
+
+      .shika-portrait{
+        width:100%;
+        object-position:50% 45%;
       }
     }
-
-    @media (max-width:600px){
+@media (max-width:600px){
       .wrap{width:min(calc(100% - 28px),var(--max))}
       nav{min-height:68px}
       .brand-logo{width:46px;height:46px}
@@ -592,6 +663,22 @@
       .care-card,.project{padding:26px}
       .sacred::after{display:none}
       .statement{font-size:clamp(40px,12vw,58px)}
+
+      .shika-intro{
+        min-height:570px;
+      }
+
+      .shika-portrait-wrap{
+        top:160px;
+        left:-12%;
+        right:-12%;
+        bottom:-18px;
+      }
+
+      .shika-identity{
+        left:0;
+        bottom:0;
+      }
     }
 
     @media (prefers-reduced-motion:reduce){
@@ -661,25 +748,21 @@
 
       <div class="care-grid">
         <article class="care-card large reveal">
-          <div class="card-number">01</div>
           <h3>The Vigil</h3>
           <p>Caregiver burden, exhaustion, hypervigilance, disrupted routines, and the loneliness of holding responsibility that others may not recognize.</p>
         </article>
 
         <article class="care-card reveal">
-          <div class="card-number">02</div>
           <h3>The Changing Body</h3>
           <p>Aging, disability, dependency, mobility, cognition, continence, adaptation, and the vital distinction between loss of function and loss of dignity.</p>
         </article>
 
         <article class="care-card reveal">
-          <div class="card-number">03</div>
           <h3>The Hard Decisions</h3>
           <p>Medical uncertainty, competing values, financial realities, quality of life, end-of-life questions, and the weight of making decisions for someone who cannot make them alone.</p>
         </article>
 
         <article class="care-card reveal">
-          <div class="card-number">04</div>
           <h3>What Remains</h3>
           <p>Anticipatory grief, bereavement, remembrance, ritual, continuing bonds, and the need for a life that mattered to continue to be witnessed.</p>
         </article>
@@ -743,17 +826,17 @@
     <h2 class="section-title">This begins with Shika.</h2>
 
     <div class="shika-portrait-wrap">
-        <img
-            src="assets/shika-portrait.png"
-            alt="Shika"
-            class="shika-portrait"
-        >
+      <img
+        src="assets/shika-portrait.png"
+        alt="Shika"
+        class="shika-portrait"
+      >
+    </div>
 
-        <div class="shika-identity">
-            <strong>Shika</strong>
-            <span class="shika-pronunciation">SHEE-kah · 鹿</span>
-            <span class="shika-origin">Japanese · “deer”</span>
-        </div>
+    <div class="shika-identity">
+      <strong>Shika</strong>
+      <span class="shika-pronunciation">SHEE-kah · 鹿</span>
+      <span class="shika-origin">Japanese · “deer”</span>
     </div>
 </div>
       <div class="reveal">

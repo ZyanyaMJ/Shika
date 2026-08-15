@@ -60,16 +60,13 @@
       letter-spacing:.02em;
     }
 
-    .mark{
-      width:32px;
-      height:32px;
-      border:1px solid var(--accent-soft);
-      border-radius:50%;
-      display:grid;
-      place-items:center;
-      color:var(--accent);
-      font-size:15px;
-    }
+.brand-logo{
+  width:42px;
+  height:42px;
+  object-fit:contain;
+  display:block;
+  flex-shrink:0;
+}
 
     .navlinks{
       display:flex;
@@ -337,10 +334,10 @@
 <header>
   <div class="wrap">
     <nav>
-      <a class="brand" href="#top" aria-label="SolemnPaw home">
-        <span class="mark">◦</span>
-        <span>SOLEMNPAW</span>
-      </a>
+    <a class="brand" href="#top" aria-label="SolemnPaw home">
+    <img src="assets/solemnpaw-logo.png" class="brand-logo" alt="">
+    <span>SOLEMNPAW</span>
+</a>
       <div class="navlinks">
         <a href="#recognition">For caregivers</a>
         <a href="#dyad">The sacred dyad</a>

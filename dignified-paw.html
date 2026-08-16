@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Dignified Paw is a developing approach to values-informed caregiving, serious illness, disability, end-of-life decisions, and remembrance.">
+<title>Dignified Paw — In Development</title>
+
+<style>
+:root{
+  --ink:#24211f;
+  --muted:#716a64;
+  --paper:#f7f3ee;
+  --accent:#7a5e52;
+  --line:#d9cec4;
+  --card:#fbf8f3;
+  --dark:#2d2926;
+  --dark-2:#37312d;
+  --serif:Georgia, "Times New Roman", serif;
+  --sans:Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --max:1120px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  line-height:1.62;
+  letter-spacing:-.01em;
+}
+a{color:inherit}
+.wrap{width:min(calc(100% - 42px),var(--max));margin:0 auto}
+header{
+  border-bottom:1px solid rgba(122,94,82,.14);
+  background:rgba(247,243,238,.92);
+}
+nav{
+  min-height:72px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+}
+.brand{
+  text-decoration:none;
+  font-weight:800;
+  letter-spacing:.035em;
+}
+.back{
+  color:var(--muted);
+  text-decoration:none;
+  font-size:14px;
+}
+.back:hover{color:var(--ink)}
+.hero{
+  min-height:72vh;
+  display:grid;
+  place-items:center;
+  padding:84px 0 76px;
+  position:relative;
+  overflow:hidden;
+}
+.hero:before,.hero:after{
+  content:"";
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+}
+.hero:before{
+  width:520px;height:520px;
+  left:-180px;top:4%;
+  background:radial-gradient(circle,rgba(216,198,186,.34),rgba(216,198,186,0) 70%);
+}
+.hero:after{
+  width:460px;height:460px;
+  right:-160px;bottom:-80px;
+  background:radial-gradient(circle,rgba(111,119,97,.14),rgba(111,119,97,0) 70%);
+}
+.hero-inner{
+  position:relative;
+  z-index:2;
+  max-width:920px;
+}
+.eyebrow{
+  text-transform:uppercase;
+  letter-spacing:.18em;
+  font-size:12px;
+  font-weight:800;
+  color:var(--accent);
+  margin-bottom:22px;
+}
+h1,h2{
+  font-family:var(--serif);
+  font-weight:500;
+  line-height:1.05;
+  letter-spacing:-.038em;
+  margin-top:0;
+}
+h1{
+  font-size:clamp(58px,9vw,108px);
+  margin-bottom:28px;
+}
+.lead{
+  max-width:800px;
+  font-size:clamp(20px,2.2vw,27px);
+  color:#4d4743;
+}
+.status{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  margin-top:28px;
+  padding:9px 14px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  color:var(--muted);
+  font-size:13px;
+  background:rgba(255,255,255,.25);
+}
+.status-dot{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--accent);
+}
+.content{
+  padding:82px 0;
+  border-top:1px solid var(--line);
+}
+.grid{
+  display:grid;
+  grid-template-columns:.8fr 1.2fr;
+  gap:64px;
+  align-items:start;
+}
+h2{
+  font-size:clamp(38px,5vw,62px);
+  margin-bottom:0;
+}
+.copy{
+  max-width:760px;
+  color:#504a46;
+  font-size:18px;
+}
+.copy p:first-child{margin-top:0}
+.note{
+  margin-top:34px;
+  padding:22px 24px;
+  border-left:3px solid var(--accent);
+  background:rgba(255,255,255,.24);
+  color:var(--muted);
+}
+.cta{
+  background:linear-gradient(145deg,var(--dark),var(--dark-2));
+  color:var(--paper);
+  padding:70px 0;
+}
+.cta-grid{
+  display:grid;
+  grid-template-columns:.85fr 1.15fr;
+  gap:64px;
+  align-items:start;
+}
+.cta h2{color:white}
+.cta-copy{color:#d8d0ca;font-size:18px}
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:28px;
+}
+.btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:46px;
+  padding:0 20px;
+  border-radius:999px;
+  text-decoration:none;
+  font-weight:700;
+  font-size:14px;
+  border:1px solid var(--paper);
+}
+.btn.primary{background:var(--paper);color:var(--dark)}
+.btn.secondary{background:transparent;color:var(--paper)}
+footer{
+  padding:28px 0 38px;
+  color:var(--muted);
+  font-size:13px;
+}
+.footer-row{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  flex-wrap:wrap;
+}
+@media(max-width:800px){
+  .grid,.cta-grid{grid-template-columns:1fr;gap:30px}
+  .hero{min-height:auto;padding:64px 0}
+}
+</style>
+
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="index.html">SOLEMNPAW</a>
+      <a class="back" href="index.html">← Return to SolemnPaw</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap hero-inner">
+    <div class="eyebrow">Applied support</div>
+    <h1>Dignified Paw</h1>
+    <p class="lead">
+      A developing, psychologically informed approach to navigating serious illness, disability, changing care needs, ethical conflict, end-of-life decisions, death care, and remembrance.
+    </p>
+    <div class="status"><span class="status-dot"></span>In development</div>
+  </div>
+</section>
+
+<section class="content">
+  <div class="wrap grid">
+    <div>
+      <div class="eyebrow">The purpose</div>
+      <h2>Make room for both love and difficulty.</h2>
+    </div>
+    <div class="copy">
+      <p>
+        Caregiving decisions are rarely only medical. They can involve suffering, uncertainty, values, disability, finances, family dynamics, practical limits, grief, hope, guilt, responsibility, and the wish to preserve dignity throughout.
+      </p>
+      <p>
+        Dignified Paw is being developed as a way to help caregivers think through those decisions in a manner that is individualized to the whole animal and the person responsible for their care.
+      </p>
+      <div class="note">
+        The decision-support model and practical tools are still being developed. This page is intentionally limited while that work takes shape.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="wrap cta-grid">
+    <div>
+      <div class="eyebrow" style="color:#d7bfb1">While we build</div>
+      <h2>You do not have to carry every question alone.</h2>
+    </div>
+    <div class="cta-copy">
+      <p>
+        If you are navigating a difficult caregiving situation, or if you work in veterinary care, hospice, rehabilitation, ethics, or caregiver support and want to discuss the developing work, you are welcome to reach out.
+      </p>
+      <div class="actions">
+        <a class="btn primary" href="mailto:solemnpaw@psyz.org">Start a conversation</a>
+        <a class="btn secondary" href="index.html">Return to SolemnPaw</a>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <div>Dignified Paw · In development</div>
+    <div>© 2026 SolemnPaw</div>
+  </div>
+</footer>
+</body>
+</html>

@@ -388,19 +388,20 @@
     .milestone-grid{
       display:grid;
       grid-template-columns:minmax(360px,.78fr) minmax(0,1.22fr);
-      gap:clamp(42px,5vw,72px);
-      align-items:start;
+      gap:0;
+      align-items:stretch;
     }
 
     .shika-intro{
       position:relative;
       min-height:760px;
       overflow:visible;
+      padding-right:42px;
     }
 
     .date{
       position:relative;
-      z-index:3;
+      z-index:4;
       text-transform:uppercase;
       letter-spacing:.16em;
       font-size:12px;
@@ -412,16 +413,51 @@
 
     .shika-intro .section-title{
       position:relative;
-      z-index:3;
+      z-index:4;
       max-width:420px;
+      margin-bottom:10px;
+    }
+
+    .shika-meta{
+      position:relative;
+      z-index:4;
+      display:flex;
+      align-items:baseline;
+      flex-wrap:wrap;
+      gap:5px 9px;
+      color:var(--muted);
+      margin-top:4px;
+      font-size:12px;
+      letter-spacing:.02em;
+    }
+
+    .shika-meta strong{
+      font-family:var(--serif);
+      font-size:18px;
+      font-weight:500;
+      color:var(--ink);
+    }
+
+    .shika-meta .kanji{
+      color:var(--accent);
+      font-size:15px;
+    }
+
+    .shika-meta .origin{
+      flex-basis:100%;
+      margin-top:1px;
+      font-size:10px;
+      letter-spacing:.13em;
+      text-transform:uppercase;
+      color:var(--accent);
     }
 
     .shika-portrait-wrap{
       position:absolute;
-      left:-10%;
+      left:-18%;
       top:185px;
-      width:calc(100% + 190px);
-      height:560px;
+      width:calc(100% + 230px);
+      height:575px;
       margin:0;
       max-width:none;
       overflow:visible;
@@ -437,73 +473,47 @@
       max-width:none;
       height:100%;
       object-fit:cover;
-      object-position:left center;
+      object-position:18% center;
       display:block;
       mix-blend-mode:multiply;
 
-      /* Keep Shika fully present on the left; fade only the less-important
-         right side of the image as it approaches the text column. */
       -webkit-mask-image:linear-gradient(
         to right,
         rgba(0,0,0,1) 0%,
-        rgba(0,0,0,1) 52%,
-        rgba(0,0,0,.96) 60%,
-        rgba(0,0,0,.72) 72%,
-        rgba(0,0,0,.38) 84%,
+        rgba(0,0,0,1) 56%,
+        rgba(0,0,0,.96) 64%,
+        rgba(0,0,0,.76) 74%,
+        rgba(0,0,0,.42) 86%,
         rgba(0,0,0,0) 100%
       );
       mask-image:linear-gradient(
         to right,
         rgba(0,0,0,1) 0%,
-        rgba(0,0,0,1) 52%,
-        rgba(0,0,0,.96) 60%,
-        rgba(0,0,0,.72) 72%,
-        rgba(0,0,0,.38) 84%,
+        rgba(0,0,0,1) 56%,
+        rgba(0,0,0,.96) 64%,
+        rgba(0,0,0,.76) 74%,
+        rgba(0,0,0,.42) 86%,
         rgba(0,0,0,0) 100%
       );
     }
 
-    .shika-identity{
-      position:absolute;
-      z-index:5;
-      left:0;
-      bottom:8px;
+    .shika-copy-column{
+      position:relative;
+      z-index:3;
+      border-left:3px solid var(--accent);
+      padding-left:30px;
+      margin-left:0;
+      min-height:100%;
       display:flex;
-      align-items:baseline;
-      flex-wrap:wrap;
-      gap:5px 9px;
-      padding:10px 14px 9px;
-      background:rgba(247,243,238,.76);
-      backdrop-filter:blur(8px);
-      -webkit-backdrop-filter:blur(8px);
-      border-left:2px solid rgba(122,94,82,.55);
-    }
-
-    .shika-identity strong{
-      font-family:var(--serif);
-      font-size:23px;
-      font-weight:500;
-      color:var(--ink);
-    }
-
-    .shika-pronunciation{
-      font-size:12px;
-      color:var(--muted);
-    }
-
-    .shika-origin{
-      flex-basis:100%;
-      font-size:10px;
-      letter-spacing:.13em;
-      text-transform:uppercase;
-      color:var(--accent);
+      flex-direction:column;
+      justify-content:flex-start;
     }
 
     .shika-box{
       position:relative;
       z-index:3;
-      border-left:3px solid var(--accent);
-      padding-left:30px;
+      border-left:none;
+      padding-left:0;
     }
 
     .shika-box p{
@@ -644,18 +654,26 @@
 
       .shika-intro{
         min-height:680px;
+        padding-right:0;
+      }
+
+      .shika-copy-column{
+        border-left:none;
+        border-top:3px solid var(--accent);
+        padding-left:0;
+        padding-top:28px;
       }
 
       .shika-portrait-wrap{
-        left:-6%;
-        top:170px;
-        width:106%;
+        left:-10%;
+        top:180px;
+        width:112%;
         height:500px;
       }
 
       .shika-portrait{
         width:100%;
-        object-position:left center;
+        object-position:18% center;
       }
     }
 @media (max-width:600px){
@@ -674,19 +692,18 @@
       .statement{font-size:clamp(40px,12vw,58px)}
 
       .shika-intro{
-        min-height:570px;
+        min-height:560px;
       }
 
       .shika-portrait-wrap{
-        top:160px;
-        left:-12%;
-        width:116%;
-        height:420px;
+        top:175px;
+        left:-14%;
+        width:118%;
+        height:400px;
       }
 
-      .shika-identity{
-        left:0;
-        bottom:0;
+      .shika-meta{
+        max-width:280px;
       }
     }
 
@@ -695,6 +712,82 @@
       .hero-emblem{animation:none}
       .reveal{opacity:1;transform:none;transition:none}
       .btn,.care-card,.project{transition:none}
+    }
+
+  
+    .project-cta{
+      position:relative;
+      z-index:3;
+      display:inline-block;
+      width:max-content;
+      max-width:100%;
+      margin-top:24px;
+      color:var(--accent);
+      font-size:13px;
+      font-weight:700;
+      letter-spacing:.02em;
+      text-decoration:none;
+      border-bottom:1px solid transparent;
+    }
+
+    .project-cta:hover{
+      border-bottom-color:currentColor;
+    }
+
+    .next-step{
+      background:var(--dark);
+      color:var(--paper);
+    }
+
+    .next-step-inner{
+      display:grid;
+      grid-template-columns:.8fr 1.2fr;
+      gap:68px;
+      align-items:start;
+    }
+
+    .next-step .eyebrow{color:#d7bfb1}
+    .next-step .section-title{color:var(--paper);margin-bottom:0}
+
+    .next-step-copy{
+      max-width:720px;
+      font-size:19px;
+      color:#d8d0ca;
+    }
+
+    .next-step-copy p{margin:0 0 24px}
+
+    .contact-actions{
+      display:flex;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:16px 20px;
+      margin-top:30px;
+    }
+
+    .next-step-button{
+      background:var(--paper);
+      color:var(--dark);
+      border-color:var(--paper);
+    }
+
+    .contact-email{
+      color:#d8d0ca;
+      font-size:14px;
+      text-decoration:none;
+      border-bottom:1px solid rgba(216,208,202,.45);
+    }
+
+    .contact-email:hover{
+      color:var(--paper);
+      border-color:var(--paper);
+    }
+
+    @media (max-width:900px){
+      .next-step-inner{
+        grid-template-columns:1fr;
+        gap:28px;
+      }
     }
 
   </style>
@@ -714,6 +807,7 @@
         <a href="#dyad">The sacred dyad</a>
         <a href="#shika">Why this exists</a>
         <a href="#building">What we're building</a>
+          <a href="#contact">Contact</a>
       </div>
     </nav>
   </div>
@@ -834,6 +928,13 @@
     <div class="date">August 15, 2026 · Shika's 18th birthday</div>
     <h2 class="section-title">This begins with Shika.</h2>
 
+    <div class="shika-meta">
+      <strong>Shika</strong>
+      <span>SHEE-kah</span>
+      <span class="kanji">鹿</span>
+      <span class="origin">Japanese · “deer”</span>
+    </div>
+
     <div class="shika-portrait-wrap">
       <img
         src="assets/shika-portrait.png"
@@ -841,14 +942,8 @@
         class="shika-portrait"
       >
     </div>
-
-    <div class="shika-identity">
-      <strong>Shika</strong>
-      <span class="shika-pronunciation">SHEE-kah · 鹿</span>
-      <span class="shika-origin">Japanese · “deer”</span>
-    </div>
 </div>
-      <div class="reveal">
+      <div class="reveal shika-copy-column">
         <div class="shika-box">
           <p>
             SolemnPaw exists because caring for Shika changed the questions I could no longer stop asking: what dignity requires, what caregiving costs, what support is missing, and why the seriousness of that responsibility should diminish simply because the life in my care was not human.
@@ -880,7 +975,9 @@
           <p>
             A psychologically informed approach to navigating serious illness, disability, changing care needs, ethical conflict, end-of-life decisions, death care, and remembrance—centered on the whole animal and the caregiver responsible for them.
           </p>
-        </article>
+        
+        <a class="project-cta" href="https://dignifiedpaw.com" target="_blank" rel="noopener">Visit dignifiedpaw.com →</a>
+      </article>
 
         <article class="project reveal">
           <div class="tag">Theory & research · early development</div>
@@ -888,7 +985,9 @@
           <p>
             A developing theoretical framework exploring whether some people experience suffering, responsibility, and duty to care in ways that are comparatively less bounded by species—and what that may mean for caregiver burden, moral distress, grief, and support needs.
           </p>
-        </article>
+        
+        <a class="project-cta" href="https://animapathy.com" target="_blank" rel="noopener">Visit animapathy.com →</a>
+      </article>
       </div>
     </div>
   </section>
@@ -910,7 +1009,30 @@
     </div>
   </section>
 
-  <section class="brand-signature">
+  
+<section class="next-step" id="contact">
+  <div class="wrap next-step-inner reveal">
+    <div>
+      <div class="eyebrow">Where we go from here</div>
+      <h2 class="section-title">This is a beginning.</h2>
+    </div>
+
+    <div class="next-step-copy">
+      <p>
+        SolemnPaw is growing into a place for practical support, serious inquiry, and collaboration around the experience of caring for animals through disability, illness, aging, death, and grief.
+      </p>
+      <p>
+        If you are a caregiver looking for support, a professional working in this space, or someone interested in contributing to what is being built here, I would be glad to hear from you.
+      </p>
+      <div class="contact-actions">
+        <a class="btn next-step-button" href="mailto:solemnpaw@psyz.org">Start a conversation</a>
+        <a class="contact-email" href="mailto:solemnpaw@psyz.org">solemnpaw@psyz.org</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="brand-signature">
     <div class="wrap reveal">
       <img src="assets/solemnpaw-logo-transparent.png" alt="SolemnPaw">
       <p>A public expression of Shika's Legacy.</p>
